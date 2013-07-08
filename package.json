@@ -1,0 +1,9 @@
+{
+  "name": "graphite-check",
+  "version": "0.0.1",
+  "dependencies": {
+    "underscore": "1.4",
+    "request": "1.9",
+    "async": "0.2"
+  }
+}
