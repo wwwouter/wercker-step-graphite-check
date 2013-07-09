@@ -65,7 +65,11 @@ function checkMetrics(url, target,preDeployCheckEnd, preDeployPeriod, postDeploy
             console.log('imageUrl');
             console.log(imageUrl);
 
-            var imageFilename = path.join(process.env["WERCKER_REPORT_ARTIFACTS_DIR"], 'image.jpg');
+            var imageFilename = path.join(
+              process.env["WERCKER_REPORT_DIR"],
+              process.env["WERCKER_STEP_ID"],
+              'image.jpg'
+            );
             console.log('writing file to ' + imageFilename)
 
             var stream = fs.createWriteStream(imageFilename);
