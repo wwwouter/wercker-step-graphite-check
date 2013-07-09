@@ -153,7 +153,7 @@ exports.getSummaryImageUrl = function(baseUrl, measurementsJson, from, to, deplo
     var toSeconds = parseInt( to/1000, 10);
 
     var url = baseUrl + '/render?drawNullAsZero=true&lineMode=staircase&hideLegend=false&' +
-           + '&from=' + fromSeconds + '&to=' + toSeconds;
+      'from=' + fromSeconds + '&to=' + toSeconds;
 
     underscore.each(measurements, function(measurement){
         url +='&target=' + measurement.target;

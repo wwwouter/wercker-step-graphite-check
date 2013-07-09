@@ -84,6 +84,7 @@ function checkMetrics(url, target,preDeployCheckEnd, preDeployPeriod, postDeploy
                 console.log('Error while checking metrics after deploy', err);
             }
             console.log("Something is wrong")
+            process.exit(1)
         });
 }
 
