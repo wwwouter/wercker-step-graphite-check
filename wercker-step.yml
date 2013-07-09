@@ -1,5 +1,5 @@
 name: graphite-check
-version: 0.0.2
+version: 0.0.3
 description: Look for anomalies in graphite data
 package-exclude:
   - wercker.yml

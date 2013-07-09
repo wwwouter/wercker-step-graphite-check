@@ -159,8 +159,8 @@ var postDeployRange =  pipelineFinished - preDeployCheckEnd - preDeployPeriod;
 
 
 
-var url = process.env["WERCKER_GRAPHITE_CHECK_POST_URL"];
-var target = process.env["WERCKER_GRAPHITE_CHECK_POST_TARGET"];
+var url = process.env["WERCKER_GRAPHITE_CHECK_URL"];
+var target = process.env["WERCKER_GRAPHITE_CHECK_TARGET"];
 
 //var preDeployCheckEnd = Math.round(Date.now()/1000)- (5 * 60 * 1000);
 
