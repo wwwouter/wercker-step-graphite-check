@@ -1,5 +1,21 @@
 name: graphite-check
-version: 0.0.5
+version: 0.0.6
 description: Look for anomalies in graphite data
 package-exclude:
   - wercker.yml
+properties:
+  pre-deploy-period:
+    type: string
+    required: true
+  post-deploy-warmup:
+    type: string
+    required: true
+  url:
+    type: string
+    required: true
+  target:
+    type: string
+    required: true
+  diff-threshold:
+    type: string
+    required: true

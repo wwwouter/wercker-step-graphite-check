@@ -5,7 +5,7 @@ var request = require('request');
 var underscore = require('underscore');
 var graphite = require("./graphite");
 
-function checkMetrics(url, target,preDeployCheckEnd, preDeployPeriod, postDeployWarmUp, postDeployRange, diffThreshold ){
+function checkMetrics(url, target,preDeployCheckEnd, preDeployPeriod, postDeployWarmUp, postDeployPeriod, diffThreshold ){
     'use strict';
 
 
@@ -17,9 +17,9 @@ function checkMetrics(url, target,preDeployCheckEnd, preDeployPeriod, postDeploy
     var postMeasurements = null;
 
     postDeployCheckEnd = Date.now() - 5000;
-    console.log('postDeployRange ' + postDeployRange);
+    console.log('postDeployPeriod ' + postDeployPeriod);
     console.log('postDeployCheckEnd ' + postDeployCheckEnd);
-    postDeployCheckStart = postDeployCheckEnd - postDeployRange + 5000;
+    postDeployCheckStart = postDeployCheckEnd - postDeployPeriod + 5000;
 
     async.waterfall([
         function(next){
@@ -95,10 +95,6 @@ function checkMetrics(url, target,preDeployCheckEnd, preDeployPeriod, postDeploy
 
 
 
-if(underscore.isUndefined(process.env["WERCKER_STEP_ROOT"])){
-  console.log("WERCKER_STEP_ROOT not set");
-  process.exit(1);
-}
 if(underscore.isUndefined(process.env["WERCKER_MAIN_PIPELINE_STARTED"])){
   console.log("WERCKER_MAIN_PIPELINE_STARTED not set");
   process.exit(1);
@@ -140,6 +136,22 @@ if(underscore.isUndefined(process.env["WERCKER_GRAPHITE_CHECK_DIFF_THRESHOLD"]))
 //1373298723000 plf
 //1373299366287 pre deploy check end
 
+
+//   preDeployCheckStart 1373385037000
+//   preDeployCheckEnd 1373385337000
+//   from=             1373385648
+//   to                1373385360
+
+// pre
+// from=1373457094&to=1373457394
+
+// post
+// from=1373457815&to=1373457529
+
+// image
+// from=1373457094&to=1373457529
+
+
 var pipelineFinished = parseInt(process.env["WERCKER_MAIN_PIPELINE_FINISHED"]) * 1000;
 var pipelineStarted = parseInt(process.env["WERCKER_MAIN_PIPELINE_STARTED"]) * 1000;
 
@@ -159,10 +171,7 @@ var preDeployCheckEnd = pipelineStarted;
     console.log('preDeployCheckEnd ' + preDeployCheckEnd);
     console.log('pipelineFinished ' + pipelineFinished);
     console.log('preDeployPeriod ' + preDeployPeriod);
-var postDeployRange =  pipelineFinished - preDeployCheckEnd - preDeployPeriod;
-
-
-
+var postDeployPeriod =  Date.now() - pipelineFinished - postDeployWarmUp;
 
 var url = process.env["WERCKER_GRAPHITE_CHECK_URL"];
 var target = process.env["WERCKER_GRAPHITE_CHECK_TARGET"];
@@ -170,7 +179,7 @@ var target = process.env["WERCKER_GRAPHITE_CHECK_TARGET"];
 //var preDeployCheckEnd = Math.round(Date.now()/1000)- (5 * 60 * 1000);
 
 
-checkMetrics(url, target, preDeployCheckEnd, preDeployPeriod, postDeployWarmUp, postDeployRange, diffThreshold);
+checkMetrics(url, target, preDeployCheckEnd, preDeployPeriod, postDeployWarmUp, postDeployPeriod, diffThreshold);
 
 
 
