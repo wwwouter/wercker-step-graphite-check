@@ -5,7 +5,7 @@ exports.getMeasurements = function(baseUrl, deployTargetKey, from, to, format, c
     'use strict';
     var fromSeconds = parseInt( from / 1000, 10);
     var toSeconds = parseInt( to / 1000, 10);
-    var url = baseUrl + '/render?target=' + deployTargetKey + '&format=' + format + '&' + 'from=' + fromSeconds + '&to=' + toSeconds;
+    var url = baseUrl + '/render?target=' + deployTargetKey + '&format=' + format + '&' + 'from=' + fromSeconds + '&until=' + toSeconds;
 
     console.log(url);
 
@@ -24,7 +24,7 @@ exports.getMeasurementsByNames = function(baseUrl, names, from, to, format, call
     var fromSeconds = parseInt( from/1000, 10);
     var toSeconds = parseInt( to/1000, 10);
 
-    var url =baseUrl + '/render?format=' + format + '&from=' + fromSeconds + '&to=' + toSeconds;
+    var url =baseUrl + '/render?format=' + format + '&from=' + fromSeconds + '&until=' + toSeconds;
 
     underscore.each(names, function(name){
         url += '&target=' + name;
@@ -129,7 +129,7 @@ exports.formatJsonForStorage = function(baseUrl, measurementsJson, from, to, dep
         var item = {};
         item.title = measurement.target.replace(deployTargetKey + '.' , '');
         item.url =baseUrl + '/render?drawNullAsZero=true&lineMode=staircase&hideLegend=true&' +
-            'title=' + item.title  + '&from=' + fromSeconds + '&to=' + toSeconds +'&target=' + measurement.target;
+            'title=' + item.title  + '&from=' + fromSeconds + '&until=' + toSeconds +'&target=' + measurement.target;
 
         item.datapoints = underscore.map(measurement.datapoints, function(datapoint){
             if(!datapoint[0]){
@@ -153,7 +153,7 @@ exports.getSummaryImageUrl = function(baseUrl, measurementsJson, from, to, deplo
     var toSeconds = parseInt( to/1000, 10);
 
     var url = baseUrl + '/render?drawNullAsZero=true&lineMode=staircase&hideLegend=false&' +
-      'from=' + fromSeconds + '&to=' + toSeconds;
+      'from=' + fromSeconds + '&until=' + toSeconds;
 
     underscore.each(measurements, function(measurement){
         url +='&target=' + measurement.target;
